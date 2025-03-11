@@ -25,14 +25,14 @@ jobs:
     steps:
       - run: |
           artifact_id=$(basename ${{ needs.test.outputs.artifact_url }}) &&
-          download_url="https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$artifact_id"
+          download_url="https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$artifact_id/zip"
           echo "Artifact_id: $artifact_id" &&
           echo "Download url: $download_url" &&
           curl -L -o test.zip \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
-          "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$artifact_id" &&
+          $download_url &&
           ls -la
           file test.zip
           cat test.zip
