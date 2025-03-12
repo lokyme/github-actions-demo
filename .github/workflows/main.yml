@@ -7,11 +7,15 @@ jobs:
     outputs:
       artifact_url: ${{ steps.upload-artifact.outputs.artifact-url }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        server: [${{ vars.STAGE_SERVER }}]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
     - run: npm install
     - run: npm test
+    - run: echo "This is server ${{ matrix.server }}"
     - uses: actions/upload-artifact@v4
       id: upload-artifact
       with:
